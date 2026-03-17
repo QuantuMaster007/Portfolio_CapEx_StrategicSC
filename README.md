@@ -1,6 +1,6 @@
 # Engineering CapEx and Supplier Execution
 
-**Engineering Program Management – CapEx & Supply Chain Operations**  
+**Engineering Program Management – CapEx & Supplier Operations**  
 Prepared by: Sourabh Tarodekar &nbsp;·&nbsp; [sourabh232@gmail.com](mailto:sourabh232@gmail.com)  
 Live site: [quantumaster007.github.io/Portfolio_CapEx_StrategicSC](https://quantumaster007.github.io/Portfolio_CapEx_StrategicSC/)
 
