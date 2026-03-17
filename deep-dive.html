@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Dive · CapEx Portfolio</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav-header">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <div class="nav-logo">NEXUS</div>
+      <div class="nav-divider"></div>
+      <div class="nav-system">CapEx Program Control Tower</div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='index.html'">Home</button>
+      <button class="nav-tab" onclick="location.href='executive.html'">Executive Dashboard</button>
+      <button class="nav-tab" onclick="location.href='supply-chain.html'">Strategic Supply Chain</button>
+      <button class="nav-tab" onclick="location.href='execution-risk.html'">Execution &amp; Risk</button>
+      <button class="nav-tab active" onclick="location.href='deep-dive.html'">Deep Dive</button>
+      <button class="nav-tab" onclick="location.href='sourcing-framework.html'">Sourcing Framework</button>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn">Export</button>
+      <button class="nav-btn primary" onclick="location.href='downloads/CapEx_StrategicSC_Portfolio.xlsx'">↓ Workbook</button>
+    </div>
+  </div>
+</nav>
+
+<main class="dashboard">
+
+  <header class="exec-header">
+    <h1 class="exec-title">Deep Dive / Model Explorer</h1>
+    <p class="exec-subtitle">Detailed analytical views from the 33-sheet Excel model — yield metrics, supplier capacity analysis, engineering change management, asset register snapshot, and documentation access.</p>
+    <div class="exec-meta">
+      <span>Source: CapEx_StrategicSC_Portfolio_v4.xlsx</span>
+      <span>33 Sheets · 989 Formulas · 0 Errors</span>
+      <span>Prepared by: Sourabh Tarodekar</span>
+    </div>
+  </header>
+
+  <div class="insight-strip">
+    <div class="insight-item">All 4 tracked process tools achieving <strong>OEE &gt; 87%</strong> in Q3-2025 — EQ-005 SCARA robots at 93.1% exceed target by 8pp.<span class="i-tag tag-up">Above Target</span></div>
+    <div class="insight-item">Pfeiffer Vacuum program share is <strong>5% of global TMP output</strong> — meaningful capacity concentration risk for critical path item.<span class="i-tag tag-down">Monitor</span></div>
+    <div class="insight-item"><strong>10 ECOs raised</strong> — 7 implemented, 3 under review. Total cost impact $107K. 4 ECOs required process re-qualification.<span class="i-tag tag-note">Active</span></div>
+    <div class="insight-item">Asset register covers all <strong>45 physical units</strong> — replacement value $15.3M, average remaining life 10+ years.<span class="i-tag tag-up">Tracked</span></div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Yield &amp; OEE — Process Tools (Sep-2025)</span>
+          <span class="card-insight">All process tools exceeding 85% OEE target — SCARA robots top performer at 93.1%</span>
+        </div>
+        <span class="card-badge badge-green">Avg 91.8% OEE</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap"><canvas id="yieldOEE"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-blue">OEE % (Availability × Performance × Quality)</span>
+          <span class="l-dot ld-green">Yield % (actual good / planned output)</span>
+        </div>
+        <div class="table-fn">EQ-005 SCARA robots excluded from yield — material handling, not process tools. OEE target = 85%. Source: S28_Yield_Production_Metrics, Sep-2025.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Supplier Capacity — Program Share</span>
+          <span class="card-insight">Pfeiffer and AMAT consume 5% of global capacity — significant for single-source critical path items</span>
+        </div>
+        <span class="card-badge badge-amber">Capacity Risk</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap"><canvas id="supplierCap"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-red">≥4% — High concentration risk</span>
+          <span class="l-dot ld-amber">2–3.9% — Moderate</span>
+          <span class="l-dot ld-blue">&lt;2% — Low</span>
+        </div>
+        <div class="table-fn">% = Program units ordered ÷ estimated supplier annual global production. Source: S22_Capacity_Supplier_Facing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECO TABLE -->
+  <div class="sec-hdr">
+    <h3>Engineering Change Order Register</h3>
+    <span>10 ECOs · S26_Engineering_Change_Orders</span>
+  </div>
+  <div class="grid grid-asym" style="margin-bottom:18px;">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">ECO Register — All 10 Items</span>
+        <span class="card-insight">7 implemented · 3 under review including 2 mandatory regulatory items</span>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table">
+          <thead><tr><th>ECO ID</th><th>Title</th><th>Origin</th><th class="td-r">Cost</th><th>Re-Qual</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="td-sm">ECO-001</td><td style="font-weight:600;">Gas Cabinet Safety Interlock Upgrade</td><td><span class="status st-red">Regulatory</span></td><td class="td-r">$28,500</td><td>YES</td><td><span class="status st-green">Implemented</span></td></tr>
+            <tr><td class="td-sm">ECO-002</td><td>TEL Furnace Recipe Parameter Change</td><td><span class="status st-blue">Customer</span></td><td class="td-r">$12,000</td><td>YES</td><td><span class="status st-green">Implemented</span></td></tr>
+            <tr><td class="td-sm">ECO-003</td><td>RTP Edge Ring Material Substitution</td><td><span class="status st-gray">Internal Eng</span></td><td class="td-r">$15,000</td><td>YES</td><td><span class="status st-green">Implemented</span></td></tr>
+            <tr><td class="td-sm">ECO-004</td><td>MES Integration Protocol Revision</td><td><span class="status st-gray">Internal Eng</span></td><td class="td-r">$8,000</td><td>NO</td><td><span class="status st-green">Implemented</span></td></tr>
+            <tr><td class="td-sm">ECO-005</td><td>Chiller Glycol Concentration Adjustment</td><td><span class="status st-gray">Internal Eng</span></td><td class="td-r">$3,500</td><td>NO</td><td><span class="status st-green">Implemented</span></td></tr>
+            <tr><td class="td-sm">ECO-006</td><td>Dry Screw Pump N₂ Purge Line Upgrade</td><td><span class="status st-gray">Internal Eng</span></td><td class="td-r">$18,000</td><td>NO</td><td><span class="status st-amber">In Review</span></td></tr>
+            <tr><td class="td-sm">ECO-007</td><td>DCS Cybersecurity Firmware Update</td><td><span class="status st-red">Regulatory</span></td><td class="td-r">$5,000</td><td>NO</td><td><span class="status st-amber">In Review</span></td></tr>
+            <tr><td class="td-sm">ECO-008</td><td>AMR Fleet Route Optimisation v2</td><td><span class="status st-gray">Internal Eng</span></td><td class="td-r">$6,000</td><td>NO</td><td><span class="status st-green">Implemented</span></td></tr>
+            <tr><td class="td-sm">ECO-009</td><td>Bulk Gas Vessel Pressure Relief Reset</td><td><span class="status st-red">Regulatory</span></td><td class="td-r">$4,200</td><td>YES</td><td><span class="status st-amber">In Review</span></td></tr>
+            <tr><td class="td-sm">ECO-010</td><td>Furnace Zone Controller Firmware Upgrade</td><td><span class="status st-gray">Internal Eng</span></td><td class="td-r">$7,000</td><td>YES</td><td><span class="status st-gray">Draft</span></td></tr>
+          </tbody>
+        </table>
+        <div class="table-fn">Total ECO cost: $107,200 (0.67% of AR budget). 4 ECOs require process re-qualification. 3 regulatory ECOs are mandatory — no deferral permitted. VDC register (S27) tracks 7 supplier-initiated changes separately.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px;">
+        <div class="card-header"><span class="card-title">ECO &amp; VDC Summary</span></div>
+        <div class="card-body">
+          <div class="stat-row"><span class="stat-label">Total ECOs Raised</span><div class="stat-track"><div class="stat-fill" style="background:var(--blue);width:100%"></div></div><span class="stat-val">10</span></div>
+          <div class="stat-row"><span class="stat-label">ECOs Implemented</span><div class="stat-track"><div class="stat-fill" style="background:var(--green);width:70%"></div></div><span class="stat-val">7</span></div>
+          <div class="stat-row"><span class="stat-label">ECOs Under Review</span><div class="stat-track"><div class="stat-fill" style="background:var(--amber);width:30%"></div></div><span class="stat-val">3</span></div>
+          <div class="stat-row"><span class="stat-label">VDCs Raised</span><div class="stat-track"><div class="stat-fill" style="background:var(--slate);width:70%"></div></div><span class="stat-val">7</span></div>
+          <div class="stat-row"><span class="stat-label">VDCs Accepted</span><div class="stat-track"><div class="stat-fill" style="background:var(--green);width:57%"></div></div><span class="stat-val">4</span></div>
+          <div class="stat-row"><span class="stat-label">Requalification Required</span><div class="stat-track"><div class="stat-fill" style="background:var(--amber);width:40%"></div></div><span class="stat-val">4 ECOs</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">ECO Cost Breakdown</span></div>
+        <div class="card-body">
+          <ul class="dl">
+            <li class="dl-item"><span class="dl-label">Total ECO Cost Impact</span><span class="dl-value">$107,200</span></li>
+            <li class="dl-item"><span class="dl-label">Regulatory (mandatory)</span><span class="dl-value" style="color:var(--red);">$37,700</span></li>
+            <li class="dl-item"><span class="dl-label">Internal Engineering</span><span class="dl-value">$57,500</span></li>
+            <li class="dl-item"><span class="dl-label">Customer-Driven</span><span class="dl-value">$12,000</span></li>
+            <li class="dl-item"><span class="dl-label">% of AR Budget</span><span class="dl-value">0.67%</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSET REGISTER -->
+  <div class="sec-hdr">
+    <h3>Asset Register Snapshot</h3>
+    <span>15 platforms · 45 total units · S24_Asset_Tracking</span>
+  </div>
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-header">
+      <div><span class="card-title">Equipment Fleet Lifecycle Status</span><span class="card-insight">All assets purchased Q1-Q2 2025 — replacement targets 2031–2048 depending on asset class</span></div>
+      <span class="card-badge badge-blue">$15.3M Replacement Value</span>
+    </div>
+    <div class="card-body" style="padding:0; overflow-x:auto;">
+      <table class="data-table">
+        <thead><tr><th>Asset</th><th>Platform</th><th>Qty</th><th>Location</th><th>Status</th><th>Purchased</th><th>Commissioned</th><th>Asset Life</th><th class="td-r">Replace. Value</th></tr></thead>
+        <tbody>
+          <tr><td class="td-sm">AST-001</td><td style="font-weight:600;">Dry Screw Vacuum Pump ×4</td><td>4</td><td>Bay A — Vacuum</td><td><span class="status st-green">In Production</span></td><td>Feb 2025</td><td>Nov 2025</td><td>~10 yrs</td><td class="td-r">$890K</td></tr>
+          <tr><td class="td-sm">AST-002</td><td style="font-weight:600;">Turbomolecular Pump ×3</td><td>3</td><td>Bay A — Vacuum</td><td><span class="status st-green">In Production</span></td><td>Feb 2025</td><td>Dec 2025</td><td>~8 yrs</td><td class="td-r">$1,200K</td></tr>
+          <tr><td class="td-sm">AST-003</td><td style="font-weight:600;">Tube Furnace System ×2</td><td>2</td><td>Bay B — Thermal</td><td><span class="status st-green">In Production</span></td><td>Jan 2025</td><td>Nov 2025</td><td>~13 yrs</td><td class="td-r">$1,350K</td></tr>
+          <tr style="background:rgba(217,119,6,0.04);"><td class="td-sm">AST-004</td><td style="font-weight:600;">Batch Oxidation Furnace ×2</td><td>2</td><td>Bay B — Thermal</td><td><span class="status st-amber">Qualified / PQ</span></td><td>Feb 2025</td><td>Pending</td><td>~13 yrs</td><td class="td-r">$1,700K</td></tr>
+          <tr><td class="td-sm">AST-005</td><td style="font-weight:600;">SCARA Robot ×6</td><td>6</td><td>Bay C — Robotics</td><td><span class="status st-green">In Production</span></td><td>Jan 2025</td><td>Nov 2025</td><td>~8 yrs</td><td class="td-r">$2,200K</td></tr>
+          <tr style="background:rgba(37,99,235,0.03);"><td class="td-sm">AST-006</td><td style="font-weight:600;">Overhead Conveyor ×1</td><td>1</td><td>Bays A–C</td><td><span class="status st-blue">Installed</span></td><td>Feb 2025</td><td>Pending</td><td>~10 yrs</td><td class="td-r">$560K</td></tr>
+          <tr><td class="td-sm">AST-014</td><td style="font-weight:600;">RTP Tool ×2</td><td>2</td><td>Bay B — Thermal</td><td><span class="status st-green">In Production</span></td><td>Feb 2025</td><td>Dec 2025</td><td>~10 yrs</td><td class="td-r">$2,300K</td></tr>
+          <tr><td class="td-sm">AST-009</td><td style="font-weight:600;">DCS Siemens S7-1500 ×5</td><td>5</td><td>Control Room</td><td><span class="status st-green">In Production</span></td><td>Jan 2025</td><td>Nov 2025</td><td>~8 yrs</td><td class="td-r">$1,100K</td></tr>
+          <tr><td class="td-sm">AST-015</td><td style="font-weight:600;">AMR Fleet ×10 robots</td><td>10</td><td>All Bays</td><td><span class="status st-green">In Production</span></td><td>Feb 2025</td><td>Nov 2025</td><td>~6 yrs</td><td class="td-r">$500K</td></tr>
+        </tbody>
+      </table>
+      <div class="table-fn">Showing 9 of 15 platforms. Full register in S24_Asset_Tracking (45 units). Total replacement value $15,305,000. Amber = completing qualification. Blue = mechanical install complete, awaiting PQ sign-off.</div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTATION -->
+  <div class="sec-hdr">
+    <h3>Portfolio Documentation</h3>
+    <span>Workbook · project overview · contact</span>
+  </div>
+  <div class="doc-grid">
+    <div class="doc-card">
+      <div class="doc-icon">⬛</div>
+      <div class="doc-title">Download Workbook</div>
+      <div class="doc-desc">33-sheet Excel model · 989 formulas · all zones complete · 0 errors</div>
+      <a href="downloads/CapEx_StrategicSC_Portfolio.xlsx" class="doc-link">↓ Download .xlsx →</a>
+    </div>
+    <div class="doc-card">
+      <div class="doc-icon">◈</div>
+      <div class="doc-title">Workbook Architecture</div>
+      <div class="doc-desc">6 zones · 33 sheets · full formula traceability · budget hierarchy documentation</div>
+      <a href="docs/workbook-architecture.md" class="doc-link">View Architecture →</a>
+    </div>
+    <div class="doc-card">
+      <div class="doc-icon">▣</div>
+      <div class="doc-title">Project Overview &amp; Contact</div>
+      <div class="doc-desc">Prepared by Sourabh Tarodekar · Engineering PM – CapEx &amp; Supply Chain Operations · sourabh232@gmail.com</div>
+      <a href="docs/project-overview.md" class="doc-link">View Overview →</a>
+    </div>
+  </div>
+
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  new Chart(document.getElementById('yieldOEE'),{type:'bar',
+    data:{labels:['EQ-003\nTube Furnace','EQ-004\nBatch Furnace','EQ-005\nSCARA Robot','EQ-014\nRTP Tool'],
+      datasets:[
+        {label:'OEE % (Sep-25)',data:[89.0,87.6,93.1,91.5],backgroundColor:P.blue,barThickness:22,_noLabel:true},
+        {label:'Yield % (Sep-25)',data:[96.6,95.4,null,97.3],backgroundColor:P.green,barThickness:22,_noLabel:true}
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',align:'end'},tooltip:{...TIP,callbacks:{label:ctx=>' '+ctx.dataset.label+': '+(ctx.raw!==null?ctx.raw+'%':'N/A')}}},
+      scales:{y:{min:80,max:100,grid:{color:'#f0f0f0'},border:{display:false},ticks:{callback:v=>v+'%'}},
+              x:{grid:{display:false},border:{display:false}}}}
+  });
+  const cVals=[3.3,5.0,4.4,1.3,0.75,4.0,2.0,1.25,0.01,5.0];
+  new Chart(document.getElementById('supplierCap'),{type:'bar',
+    data:{labels:['Edwards','Pfeiffer','Thermco','TEL','Brooks','Daifuku','Air Liquide','Linde','Siemens','AMAT'],
+      datasets:[{label:'% of Supplier Global Capacity',data:cVals,
+        backgroundColor:cVals.map(v=>v>=4?P.red:v>=2?P.amber:P.blue),
+        borderWidth:0,barThickness:22,_fmt:'%'}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:ctx=>' Program = '+ctx.raw+'% of supplier capacity'}}},
+      scales:{y:{beginAtZero:true,grid:{color:'#f0f0f0'},border:{display:false},ticks:{callback:v=>v+'%'}},
+              x:{grid:{display:false},border:{display:false}}}}
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Supply Chain · CapEx Portfolio</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav-header">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <div class="nav-logo">NEXUS</div>
+      <div class="nav-divider"></div>
+      <div class="nav-system">CapEx Program Control Tower</div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab" data-page="index.html" onclick="location.href='index.html'">Home</button>
+      <button class="nav-tab" data-page="executive.html" onclick="location.href='executive.html'">Executive Dashboard</button>
+      <button class="nav-tab active" data-page="supply-chain.html" onclick="location.href='supply-chain.html'">Strategic Supply Chain</button>
+      <button class="nav-tab" data-page="execution-risk.html" onclick="location.href='execution-risk.html'">Execution &amp; Risk</button>
+      <button class="nav-tab" data-page="deep-dive.html" onclick="location.href='deep-dive.html'">Deep Dive</button>
+      <button class="nav-tab" onclick="location.href='sourcing-framework.html'">Sourcing Framework</button>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn">Export</button>
+      <button class="nav-btn primary" onclick="location.href='downloads/CapEx_StrategicSC_Portfolio.xlsx'">↓ Workbook</button>
+    </div>
+  </div>
+</nav>
+
+<main class="dashboard">
+
+  <header class="exec-header">
+    <h1 class="exec-title">Strategic Supply Chain Intelligence</h1>
+    <p class="exec-subtitle">Supplier network, market concentration analysis, logistics planning, commercial negotiation performance, and dual-source strategy across 15 OEM partners in 5 countries.</p>
+    <div class="exec-meta">
+      <span>15 Active OEM Suppliers</span>
+      <span>5 Countries</span>
+      <span>$537K Negotiation Savings</span>
+      <span>Prepared by: Sourabh Tarodekar</span>
+      <span>Classification: Portfolio Demonstration</span>
+    </div>
+  </header>
+
+  <!-- KPI ROW — compact single line -->
+  <div class="kpi-grid">
+    <div class="kpi-card blue">
+      <div class="kpi-label">Active OEMs</div>
+      <div class="kpi-value neutral">15</div>
+      <div class="kpi-context">5 countries · 87.3 avg reliability</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Countries Covered</div>
+      <div class="kpi-value neutral">5</div>
+      <div class="kpi-context">US · DE · JP · FR · UK/DK</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Dual-Source Programs</div>
+      <div class="kpi-value positive">6</div>
+      <div class="kpi-context">3 complete · 3 active / pipeline</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Negotiation Savings</div>
+      <div class="kpi-value positive">$537K</div>
+      <div class="kpi-context">5.9% avg · 9 closed negotiations</div>
+    </div>
+    <div class="kpi-card danger">
+      <div class="kpi-label">High-Risk Suppliers</div>
+      <div class="kpi-value danger">7</div>
+      <div class="kpi-context">Edwards, Pfeiffer, TEL, Daifuku + 3 more</div>
+    </div>
+    <div class="kpi-card warning">
+      <div class="kpi-label">Avg Lead Time</div>
+      <div class="kpi-value negative">20.4w</div>
+      <div class="kpi-context">↓ from 22w · Q1 2025 baseline</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT STRIP -->
+  <div class="insight-strip">
+    <div class="insight-item">Turbomolecular pumps and control systems are <strong>oligopoly markets</strong> — ≤4 global suppliers. Highest strategic sourcing risk.<span class="i-tag tag-down">Concentrated</span></div>
+    <div class="insight-item">Japan suppliers (TEL, Daikin, Daifuku) carry <strong>3.2% import duty</strong> + 4–5 week sea transit — highest logistics lead time at 5w total. FX hedges in AR budget.<span class="i-tag tag-watch">Monitor</span></div>
+    <div class="insight-item">AMAT RTP (EQ-014) delivered <strong>highest single saving at $125K</strong> (6.7% of contract) — multi-unit volume leverage. Total confirmed savings: <strong>$537K</strong>.<span class="i-tag tag-up">Top Performer</span></div>
+    <div class="insight-item">Shimadzu alt-qualification (EQ-002) and Matheson Gas RFQ are <strong>active risk mitigations</strong> against two single-source suppliers.<span class="i-tag tag-note">In Progress</span></div>
+  </div>
+
+  <!-- CHARTS ROW 1 -->
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Supply Market Concentration by Commodity</span>
+          <span class="card-insight">TMP pumps and furnaces are highest-concentration markets — oligopoly risk requiring dual-source strategy</span>
+        </div>
+        <span class="card-badge badge-red">S17 Market Intelligence</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap-lg"><canvas id="marketConc"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-red">≤ 3 suppliers — Concentrated / oligopoly</span>
+          <span class="l-dot ld-amber">4 suppliers — Moderate competition</span>
+          <span class="l-dot ld-blue">≥ 5 suppliers — Competitive market</span>
+        </div>
+        <div class="table-fn">Global supplier count = estimated midpoint of market range from S17_Supply_Market_Analysis. Turbomolecular pumps (5 global suppliers) = highest concentration risk (HHI ~2,800 — oligopoly). Threshold: ≤5 = concentrated, 6–9 = moderate, ≥10 = competitive.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Supplier Geographic Distribution</span>
+          <span class="card-insight">Germany and USA are largest supplier bases — Japan carries highest logistics risk and duty exposure</span>
+        </div>
+        <span class="card-badge badge-blue">5 Countries</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap"><canvas id="supplierGeo"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-green">USA · 0% duty · 1w domestic transit</span>
+          <span class="l-dot ld-blue">Germany · 0% FTA · 3–4w sea</span>
+          <span class="l-dot ld-amber">Japan · 3.2% duty · 4–5w sea</span>
+        </div>
+        <div class="table-fn">Switzerland (ABB) and Denmark (MiR) each 1 supplier. France (Air Liquide) 1 supplier. All EU suppliers FTA-covered — 0% import duty.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 2 -->
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Negotiation Savings by Supplier</span>
+          <span class="card-insight">AMAT ($125K), Brooks ($95K), Thermco ($82K) = $302K combined — 56% of $537K total savings</span>
+        </div>
+        <span class="card-badge badge-green">$537K · S21 Confirmed</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap"><canvas id="savingsChart"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-green">$90K+ — Excellent result</span>
+          <span class="l-dot ld-blue">$40–89K — Strong result</span>
+          <span class="l-dot ld-slate">&lt;$40K — Standard</span>
+        </div>
+        <div class="table-fn">Data source: S21_Negotiation_Tracker. Total confirmed savings: $537K across 9 closed negotiations. Air Liquide (N-006) excluded — active negotiation Dec 2025. Savings % = (Initial Quote − Final) ÷ Initial Quote.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Logistics Lead Time by Supplier</span>
+          <span class="card-insight">TEL and Daikin (Japan) carry the longest logistics chain — sea freight + 3.2% import duty clearance</span>
+        </div>
+        <span class="card-badge badge-amber">Avg 2.9w · S18 Actuals</span>
+      </div>
+      <div class="card-body">
+        <div style="position:relative;height:clamp(260px,28vw,400px);"><canvas id="leadTimeChart"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-red">≥ 4.5w — High logistics risk</span>
+          <span class="l-dot ld-amber">3–4.4w — Moderate (sea + clearance)</span>
+          <span class="l-dot ld-blue">1–2.9w — Air freight / short sea</span>
+          <span class="l-dot ld-green">0–0.9w — Domestic / software</span>
+        </div>
+        <div class="table-fn">Data source: S18_Supply_Chain_Network. Lead time = in-transit + in-country clearance only (not OEM manufacturing). Japan suppliers (5w) = sea freight 4w + customs 1w + 3.2% duty. US domestic (0–1w) = road freight only. All 15 OEM suppliers shown.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUAL-SOURCE TABLE -->
+  <div class="sec-hdr">
+    <h3>Dual / Multi-Source Strategy Register</h3>
+    <span>6 commodity categories · risk reduction program · S20_Dual_MultiSource_Strategy</span>
+  </div>
+  <div class="card" style="margin-bottom:18px;">
+    <div class="card-header">
+      <div>
+        <span class="card-title">Qualification Pipeline — All Commodities</span>
+        <span class="card-insight">3 programs complete — single-source hardware count targeting zero by Q4-2025</span>
+      </div>
+      <span class="card-badge badge-green">3 Complete · 3 Active</span>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <table class="data-table">
+        <thead>
+          <tr><th>Commodity</th><th>Primary Supplier</th><th>Alternate Supplier</th><th>Qualification Stage</th><th>Target Alt Share</th><th>Risk Reduction</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:600;">Dry Screw Vacuum Pumps</td><td>Edwards Vacuum</td><td>Busch Vacuum</td><td><span class="status st-green">AVL Approved</span></td><td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-green" style="width:30%"></div></div><span class="prog-text">30%</span></div></td><td style="color:var(--green);font-size:10px;">Single-source eliminated ✓</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr style="background:rgba(220,38,38,0.03);"><td style="font-weight:600;">Turbomolecular Pumps</td><td>Pfeiffer Vacuum</td><td>Shimadzu Corp</td><td><span class="status st-amber">In Qualification</span></td><td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-amber" style="width:20%"></div></div><span class="prog-text">20–30%</span></div></td><td style="color:var(--red);font-size:10px;">⚠ Critical path risk</td><td><span class="status st-red">Active · Urgent</span></td></tr>
+          <tr><td style="font-weight:600;">Gas Handling Systems</td><td>Air Liquide Eng.</td><td>Matheson Gas</td><td><span class="status st-blue">RFQ Issued</span></td><td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-blue" style="width:40%"></div></div><span class="prog-text">30–50%</span></div></td><td style="color:var(--amber);font-size:10px;">Reduces dependency</td><td><span class="status st-amber">Active</span></td></tr>
+          <tr><td style="font-weight:600;">High-Temp Furnaces</td><td>Thermco Systems</td><td>BTU International</td><td><span class="status st-green">AVL Approved (backup)</span></td><td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-gray" style="width:5%"></div></div><span class="prog-text">Backup</span></div></td><td style="color:var(--green);font-size:10px;">Backup pre-qualified ✓</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td style="font-weight:600;">SCARA Robots</td><td>Brooks Automation</td><td>Kawasaki Robotics</td><td><span class="status st-gray">Technical Eval</span></td><td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-gray" style="width:25%"></div></div><span class="prog-text">25%</span></div></td><td style="color:var(--t3);font-size:10px;">Cost leverage only</td><td><span class="status st-gray">Pipeline · Phase III</span></td></tr>
+          <tr><td style="font-weight:600;">Process Chillers</td><td>Daikin Applied</td><td>Carrier Corporation</td><td><span class="status st-green">Qualified</span></td><td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-green" style="width:50%"></div></div><span class="prog-text">Equal split</span></div></td><td style="color:var(--green);font-size:10px;">Competitive market ✓</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr>
+            <td style="font-weight:600;">Overhead Conveyor System</td><td>Daifuku</td><td>KION Group / Dematic</td>
+            <td><span class="status st-grey">Market Research</span></td>
+            <td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-grey" style="width:5%"></div></div><span class="prog-text">30–50% Ph.III</span></div></td>
+            <td style="color:var(--red);font-size:10px;">⚠ Single-source · large civil interface</td>
+            <td><span class="status st-grey">Pipeline · Phase III</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Control Systems (DCS)</td><td>Siemens AG</td><td>Rockwell Automation</td>
+            <td><span class="status st-grey">Pre-Qualification RFI</span></td>
+            <td><div class="prog-cell"><div class="prog-bar"><div class="prog-fill pf-grey" style="width:5%"></div></div><span class="prog-text">Backup Ph.III</span></div></td>
+            <td style="color:var(--t3);font-size:10px;">Strategic resilience — Phase III</td>
+            <td><span class="status st-grey">Pipeline · Phase III</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-fn">Highlighted row (TMP Pumps) = critical path single-source risk. Pfeiffer Vacuum has zero schedule float — any delay extends program end date. Shimadzu TMP-3203L qualification target: Q3-2025. Total qual investment: $105K.</div>
+    </div>
+  </div>
+
+  <!-- SOURCING PIPELINE -->
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Strategic Sourcing Pipeline</span><span class="card-insight">Stage-gate from market scan to contract award</span></div>
+      <div class="card-body">
+        <div class="funnel">
+          <div class="funnel-step"><span class="funnel-num">1</span><span class="funnel-name">Market Scan &amp; Analysis</span><span class="funnel-count">8</span><span class="funnel-sub">categories mapped</span></div>
+          <div class="funnel-step"><span class="funnel-num">2</span><span class="funnel-name">RFI / Supplier Identification</span><span class="funnel-count">24</span><span class="funnel-sub">suppliers evaluated</span></div>
+          <div class="funnel-step"><span class="funnel-num">3</span><span class="funnel-name">RFQ / RFP Issued</span><span class="funnel-count">18</span><span class="funnel-sub">competitive bids received</span></div>
+          <div class="funnel-step"><span class="funnel-num">4</span><span class="funnel-name">Negotiation &amp; BAFO</span><span class="funnel-count">10</span><span class="funnel-sub">negotiations completed</span></div>
+          <div class="funnel-step"><span class="funnel-num">5</span><span class="funnel-name">Contract Award &amp; PO</span><span class="funnel-count">9</span><span class="funnel-sub">contracts closed · 1 active</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Supply Chain Framework</span><span class="card-insight">End-to-end strategic sourcing model applied to program</span></div>
+      <div class="card-body">
+        <ul class="dl">
+          <li class="dl-item"><span class="dl-label">Market Intelligence</span><span class="dl-value" style="color:var(--blue);">HHI · Pricing Trends</span></li>
+          <li class="dl-item"><span class="dl-label">Supplier Strategy</span><span class="dl-value" style="color:var(--blue);">Dual-Source · AVL</span></li>
+          <li class="dl-item"><span class="dl-label">Commercial Negotiation</span><span class="dl-value" style="color:var(--green);">$537K Savings</span></li>
+          <li class="dl-item"><span class="dl-label">Fabrication Planning</span><span class="dl-value">CPM · FAT · FX Hedging</span></li>
+          <li class="dl-item"><span class="dl-label">Logistics Readiness</span><span class="dl-value" style="color:var(--amber);">20.4w avg LT</span></li>
+          <li class="dl-item"><span class="dl-label">Deployment Support</span><span class="dl-value" style="color:var(--green);">G5 Released</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/supply-chain.js"></script>
+</body>
+</html>

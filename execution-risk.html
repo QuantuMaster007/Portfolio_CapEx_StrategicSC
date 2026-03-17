@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program Execution & Risk · CapEx Portfolio</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="nav-header">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <div class="nav-logo">NEXUS</div>
+      <div class="nav-divider"></div>
+      <div class="nav-system">CapEx Program Control Tower</div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='index.html'">Home</button>
+      <button class="nav-tab" onclick="location.href='executive.html'">Executive Dashboard</button>
+      <button class="nav-tab" onclick="location.href='supply-chain.html'">Strategic Supply Chain</button>
+      <button class="nav-tab active" onclick="location.href='execution-risk.html'">Execution &amp; Risk</button>
+      <button class="nav-tab" onclick="location.href='deep-dive.html'">Deep Dive</button>
+      <button class="nav-tab" onclick="location.href='sourcing-framework.html'">Sourcing Framework</button>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn">Export</button>
+      <button class="nav-btn primary" onclick="location.href='downloads/CapEx_StrategicSC_Portfolio.xlsx'">↓ Workbook</button>
+    </div>
+  </div>
+</nav>
+
+<main class="dashboard">
+
+  <header class="exec-header">
+    <h1 class="exec-title">Program Execution &amp; Risk</h1>
+    <p class="exec-subtitle">Work breakdown structure, critical path analysis, milestone roadmap, supply chain risk heatmap, inventory coverage, and asset lifecycle status across the full Greenfield Expansion Phase II program.</p>
+    <div class="exec-meta">
+      <span>Critical Path: 46 weeks</span>
+      <span>7 CRITICAL risk items</span>
+      <span>G5 Production Release: Dec 2025</span>
+      <span>Prepared by: Sourabh Tarodekar</span>
+      <span>Classification: Portfolio Demonstration</span>
+    </div>
+  </header>
+
+  <!-- KPI ROW — compact single line -->
+  <div class="kpi-grid">
+    <div class="kpi-card navy">
+      <div class="kpi-label">Critical Path Duration</div>
+      <div class="kpi-value neutral">46 Weeks</div>
+      <div class="kpi-context">Apr–Dec 2025 · EQ-002 TMP chain</div>
+    </div>
+    <div class="kpi-card warning">
+      <div class="kpi-label">CP Activities (of 39)</div>
+      <div class="kpi-value negative">12</div>
+      <div class="kpi-context">31% of activities on critical path</div>
+    </div>
+    <div class="kpi-card danger">
+      <div class="kpi-label">Critical Risk Items</div>
+      <div class="kpi-value danger">7</div>
+      <div class="kpi-context">VP escalation required</div>
+    </div>
+    <div class="kpi-card warning">
+      <div class="kpi-label">High Risk Items</div>
+      <div class="kpi-value negative">4</div>
+      <div class="kpi-context">Weekly executive review</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Average OEE Q3-2025</div>
+      <div class="kpi-value positive">95.4%</div>
+      <div class="kpi-context">Above 85% target threshold</div>
+    </div>
+    <div class="kpi-card success">
+      <div class="kpi-label">Deployment Readiness</div>
+      <div class="kpi-value positive">G5</div>
+      <div class="kpi-context">Production release Dec 2025</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT STRIP -->
+  <div class="insight-strip">
+    <div class="insight-item">Critical path runs through <strong>EQ-002 Pfeiffer TMP</strong>: PO → 26-week mfg → FAT → freight → install → PQ = zero float across entire chain.<span class="i-tag tag-down">Zero Float</span></div>
+    <div class="insight-item">Hazmat permit for EQ-007 gas system was the <strong>highest non-equipment risk</strong> — 12-week permit lead time on critical path. Filed Week 5.<span class="i-tag tag-note">Closed</span></div>
+    <div class="insight-item">OEE averaging <strong>95.4%</strong> in Q3-2025 across all 4 tracked process tools — exceeds 85% program target by 10pp.<span class="i-tag tag-up">Exceeds Target</span></div>
+    <div class="insight-item">12 of 15 spare parts have <strong>≥ 13 weeks coverage</strong> — DCS CPU at 270 weeks due to MTBF of 43,800 hours.<span class="i-tag tag-up">Well Stocked</span></div>
+  </div>
+
+  <!-- WBS TREE DIAGRAM -->
+  <div class="sec-hdr">
+    <h3>Work Breakdown Structure</h3>
+    <span>8 workstreams · 40+ work packages · S06_WBS</span>
+  </div>
+  <div class="wbs-container" style="margin-bottom:16px;">
+    <div class="wbs-tree">
+
+      <!-- Root -->
+      <div class="wbs-root">GREENFIELD EXPANSION PHASE II — AR-2025-0082</div>
+
+      <!-- Connector to branches -->
+      <div class="wbs-level-connector"></div>
+
+      <!-- 8 branch columns -->
+      <div class="wbs-branches">
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-1">1. Program Management</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">Kick-off &amp; AR execution</div>
+              <div class="wbs-child">Stakeholder comms plan</div>
+              <div class="wbs-child">CPM schedule baseline</div>
+              <div class="wbs-child">Weekly reviews</div>
+              <div class="wbs-child">Lessons learned &amp; close</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-2">2. Sourcing &amp; Procurement</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">RFQ — long-lead equip.</div>
+              <div class="wbs-child">Supplier evaluation &amp; BAFO</div>
+              <div class="wbs-child">PO awards — 15 OEMs</div>
+              <div class="wbs-child">FX forward contracts</div>
+              <div class="wbs-child">Alt-source qualification</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-3">3. Engineering &amp; Design</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">Tech spec review</div>
+              <div class="wbs-child">FAT protocol dev.</div>
+              <div class="wbs-child">Utility design pkg</div>
+              <div class="wbs-child">Site layout plan</div>
+              <div class="wbs-child">MES / SCADA spec</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-4">4. Fabrication &amp; FAT</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child" style="border-left:2px solid var(--red);background:#fff5f5;">EQ-002 Pfeiffer TMP 26w ← CP</div>
+              <div class="wbs-child">EQ-014 AMAT RTP 24w</div>
+              <div class="wbs-child">EQ-004 TEL Furnace 28w</div>
+              <div class="wbs-child">EQ-003 Thermco 20w</div>
+              <div class="wbs-child">Remaining 11 platforms</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-5">5. Logistics</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">Freight booking</div>
+              <div class="wbs-child">Customs — JP / EU</div>
+              <div class="wbs-child">Delivery &amp; inspection</div>
+              <div class="wbs-child">Crane lift coord.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-6">6. Site Readiness</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">Floor reinf. EQ-004</div>
+              <div class="wbs-child">Electrical infra</div>
+              <div class="wbs-child">Cooling loop install</div>
+              <div class="wbs-child" style="border-left:2px solid var(--amber);">Hazmat permit ← CP</div>
+              <div class="wbs-child">OT network upgrade</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-7">7. Installation</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">Mechanical install</div>
+              <div class="wbs-child">MES integration</div>
+              <div class="wbs-child">Utility tie-in</div>
+              <div class="wbs-child">Safety interlocks</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wbs-branch">
+          <div class="wbs-parent wp-8">8. Qual. &amp; Release</div>
+          <div class="wbs-children-wrap">
+            <div class="wbs-children">
+              <div class="wbs-child">G4 PQ — all 15</div>
+              <div class="wbs-child">SOP &amp; training</div>
+              <div class="wbs-child">Spares stocking</div>
+              <div class="wbs-child">G5 production release</div>
+              <div class="wbs-child">30/90/180-day checks</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /wbs-branches -->
+    </div><!-- /wbs-tree -->
+    <div class="table-fn" style="margin-top:12px;padding-top:8px;border-top:1px solid var(--border);">Red border = critical path activity (zero float). Amber border = near-critical path (&lt;3w float). EQ-002 Pfeiffer TMP manufacturing (26w) drives program end date. Source: S06_WBS · S07_CPM_Master_Schedule.</div>
+  </div>
+
+  <!-- CRITICAL PATH + MILESTONE ROW -->
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Critical Path Summary</span>
+          <span class="card-insight">12 activities on CP — EQ-002 TMP 26-week manufacturing chain drives 46-week program duration</span>
+        </div>
+        <span class="card-badge badge-red">46 Weeks Total</span>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table">
+          <thead><tr><th>Act</th><th>Activity</th><th>Dur.</th><th style="text-align:center;">Float</th><th>Risk</th><th>CP?</th></tr></thead>
+          <tbody>
+            <tr><td class="td-sm">A06</td><td style="font-weight:600;">PO Award — EQ-002 Pfeiffer TMP</td><td>1w</td><td style="text-align:center;font-weight:700;color:var(--red);">0</td><td><span class="status st-red">Critical</span></td><td><span class="status st-red">YES</span></td></tr>
+            <tr><td class="td-sm">A11</td><td style="font-weight:600;">Gas System / Hazmat Permit</td><td>12w</td><td style="text-align:center;font-weight:700;color:var(--red);">0</td><td><span class="status st-red">Critical</span></td><td><span class="status st-red">YES</span></td></tr>
+            <tr><td class="td-sm">A15</td><td style="font-weight:600;">EQ-002 Pfeiffer TMP — Mfg &amp; FAT</td><td>26w</td><td style="text-align:center;font-weight:700;color:var(--red);">0</td><td><span class="status st-red">Critical</span></td><td><span class="status st-red">YES</span></td></tr>
+            <tr><td class="td-sm">A23</td><td style="font-weight:600;">Freight &amp; Customs — EQ-002</td><td>3w</td><td style="text-align:center;font-weight:700;color:var(--red);">0</td><td><span class="status st-amber">Moderate</span></td><td><span class="status st-red">YES</span></td></tr>
+            <tr><td class="td-sm">A28</td><td style="font-weight:600;">EQ-002 TMP Installation</td><td>2w</td><td style="text-align:center;font-weight:700;color:var(--red);">0</td><td><span class="status st-red">Critical</span></td><td><span class="status st-red">YES</span></td></tr>
+            <tr><td class="td-sm">A17</td><td>EQ-004 TEL Furnace — Mfg &amp; FAT</td><td>28w</td><td style="text-align:center;font-weight:600;color:var(--amber);">2</td><td><span class="status st-amber">High</span></td><td><span class="status st-gray">Near-CP</span></td></tr>
+          </tbody>
+        </table>
+        <div class="table-fn">Float = Late Start − Early Start. Zero float = on critical path. A17 TEL furnace has 2w float despite 28w mfg due to later PO placement date.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Risk Distribution</span>
+          <span class="card-insight">7 CRITICAL items require VP escalation — primarily single-source and regulatory dependencies</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap-sm"><canvas id="riskDist"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-red">Critical — VP escalation · daily review</span>
+          <span class="l-dot ld-amber">High — weekly exec review</span>
+          <span class="l-dot ld-green">Low — quarterly check</span>
+        </div>
+        <div class="table-fn">Risk score = Delay Probability × Schedule Impact (1–5) × Replacement Difficulty (1–5). CRITICAL = score &gt;8 OR single-source with score &gt;5. Source: S16_Supply_Chain_Risk.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MILESTONE ROADMAP — extended -->
+  <div class="sec-hdr">
+    <h3>Program Milestone Roadmap</h3>
+    <span>Apr–Dec 2025 · G0 to G5 with detailed sub-milestones</span>
+  </div>
+
+  <div class="ms-strip" style="border-bottom:none;margin-bottom:0;">
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">G0/G1</div><div class="ms-label">AR + POs</div><div class="ms-date">Apr 2025</div><div class="ms-detail">Board sign-off · All 15 POs placed · FX hedged</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">Permits Filed</div><div class="ms-date">May 2025</div><div class="ms-detail">EQ-007 hazmat permit · 12w lead time on CP</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">OEM Build Start</div><div class="ms-date">May 2025</div><div class="ms-detail">All 15 OEMs entered production. EQ-002 26w clock starts.</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">Site Civils</div><div class="ms-date">Aug 2025</div><div class="ms-detail">Floor, electrical, cooling, OT network complete · 3d slip non-CP</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">Permit Received</div><div class="ms-date">Aug 2025</div><div class="ms-detail">Hazmat permit granted Week 18 · critical path cleared</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">G2</div><div class="ms-label">All FATs Done</div><div class="ms-date">Oct 2025</div><div class="ms-detail">15/15 FATs signed · EQ-004 TEL last. Zero failures.</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">G3</div><div class="ms-label">All Delivered</div><div class="ms-date">Oct 2025</div><div class="ms-detail">45 units on site · EQ-002 TMP final delivery · CP cleared</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">All Installed</div><div class="ms-date">Nov 2025</div><div class="ms-detail">Mechanical, utility tie-ins, MES, safety interlocks done</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">MES / SCADA Live</div><div class="ms-date">Nov 2025</div><div class="ms-detail">Siemens DCS config complete · 2d slip absorbed</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">G4</div><div class="ms-label">PQ Complete</div><div class="ms-date">Dec 2025</div><div class="ms-detail">All 15 PQ passed · 4 re-runs (EQ-004 zone drift) · no failures</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">Spares Stocked</div><div class="ms-date">Dec 2025</div><div class="ms-detail">12 Class-A spare parts stocked · $124K total value</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">—</div><div class="ms-label">Ops Training</div><div class="ms-date">Dec 2025</div><div class="ms-detail">24 operators certified across 3 shifts · SOPs signed off</div></div>
+    <div class="ms-item"><div class="ms-dot done"></div><div class="ms-gate">G5</div><div class="ms-label">Production Release</div><div class="ms-date">Dec 2025</div><div class="ms-detail">Formal handover to Ops · 30/90/180d checkpoints initiated</div></div>
+  </div>
+
+  <!-- Sub-milestone detail table -->
+  <div class="card" style="margin-bottom:16px;border-top:none;">
+    <div class="card-body" style="padding:0;">
+      <table class="ms-table">
+        <thead>
+          <tr><th>Gate</th><th>Sub-Milestone</th><th>Date</th><th>Owner</th><th>Budget</th><th>Key Risk / Note</th><th>Outcome</th></tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:700;color:var(--navy);">G0</td><td>Program baseline signed · CPM approved</td><td>Apr 2, 2025</td><td>Program Mgr</td><td class="td-r">—</td><td>CPM critical path identified (EQ-002 TMP)</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td style="font-weight:700;color:var(--navy);">G1</td><td>All 15 POs awarded · FX hedges placed</td><td>Apr 25, 2025</td><td>Sourcing Lead</td><td class="td-r">$13.87M</td><td>3 days ahead of target · EUR/JPY hedged</td><td><span class="status st-green">Complete · Early</span></td></tr>
+          <tr><td>—</td><td>Hazmat permit filed — EQ-007 gas system</td><td>May 5, 2025</td><td>Regulatory</td><td class="td-r">$0</td><td>Critical path — 12w lead time starts here</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td>—</td><td>Dual-source qual started — Shimadzu TMP</td><td>May 12, 2025</td><td>Engineering</td><td class="td-r">$45K</td><td>EQ-002 CP risk mitigation — urgent priority</td><td><span class="status st-amber">In Progress</span></td></tr>
+          <tr><td>—</td><td>Site floor reinforcement complete — EQ-004</td><td>Aug 18, 2025</td><td>Facilities</td><td class="td-r">$180K</td><td>3-day slip vs plan — non-critical path</td><td><span class="status st-amber">Complete · 3d slip</span></td></tr>
+          <tr><td>—</td><td>Hazmat permit received — EQ-007</td><td>Aug 24, 2025</td><td>Regulatory</td><td class="td-r">$0</td><td>Critical path cleared — installation can proceed</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td style="font-weight:700;color:var(--navy);">G2</td><td>EQ-002 Pfeiffer TMP FAT sign-off</td><td>Sep 30, 2025</td><td>Engineering</td><td class="td-r">$930K</td><td>Final FAT on CP — zero float from here to G5</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td style="font-weight:700;color:var(--navy);">G3</td><td>EQ-002 TMP delivered to site</td><td>Oct 20, 2025</td><td>Logistics</td><td class="td-r">$48K freight</td><td>Critical path delivery — crane lift required</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td>—</td><td>MES / SCADA integration completed</td><td>Nov 7, 2025</td><td>Controls Eng.</td><td class="td-r">$42K NRE</td><td>2-day slip on DCS PLC config — non-CP</td><td><span class="status st-amber">Complete · 2d slip</span></td></tr>
+          <tr><td style="font-weight:700;color:var(--navy);">G4</td><td>EQ-004 furnace PQ — 4 re-runs resolved</td><td>Dec 5, 2025</td><td>Process / QA</td><td class="td-r">—</td><td>Zone drift resolved — ECO-002 raised</td><td><span class="status st-green">Complete</span></td></tr>
+          <tr><td>—</td><td>Operator certification — 24 staff, 3 shifts</td><td>Dec 11, 2025</td><td>Training</td><td class="td-r">$18K</td><td>1 day ahead of plan — all SOPs signed</td><td><span class="status st-green">Complete · Early</span></td></tr>
+          <tr><td style="font-weight:700;color:var(--navy);">G5</td><td>Formal production release — Ops handover</td><td>Dec 15, 2025</td><td>Program Mgr</td><td class="td-r">—</td><td>On schedule · Next: 90-day review Mar 2026</td><td><span class="status st-green">Complete · On Time</span></td></tr>
+        </tbody>
+      </table>
+      <div class="table-fn">All program gates achieved on or before target date. Cumulative slip = 5 working days (all non-critical-path). Zero formal gate failures. 10 ECOs raised during program — $107K cost impact (0.67% of AR). Next formal review: 90-day post-production (Mar 2026).</div>
+    </div>
+  </div>
+
+  <!-- ASSET + INVENTORY ROW -->
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Asset Lifecycle Status</span>
+          <span class="card-insight">13 of 15 platforms in production — EQ-004 and EQ-006 completing final qualification</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap-sm"><canvas id="assetDonut"></canvas></div>
+        <div class="table-fn">45 total units across 15 platforms. "In Production" = G5 gate cleared and Operations handover complete. Source: S24_Asset_Tracking.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Critical Spare Parts Inventory Coverage</span>
+          <span class="card-insight">All Class-A spares have ≥ 13 weeks coverage — DCS CPU extremely high due to 43,800hr MTBF</span>
+        </div>
+        <span class="card-badge badge-green">$124K Total</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap-lg"><canvas id="invCoverage"></canvas></div>
+        <div class="legend-row">
+          <span class="l-dot ld-red">&lt;20w — Review safety stock</span>
+          <span class="l-dot ld-amber">20–29w — Adequate</span>
+          <span class="l-dot ld-blue">≥30w — Well covered</span>
+        </div>
+        <div class="table-fn">Coverage = (Safety Stock × MTBF) ÷ Annual Operating Hours × 52w. DCS CPU shown at 270w due to MTBF 43,800hr. Source: S23_Inventory_Buffer_Planning.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+<div id="site-footer"></div>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/execution.js"></script>
+</body>
+</html>

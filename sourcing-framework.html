@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sourcing Framework · CapEx Portfolio</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+/* ── FEL FRAMEWORK STYLES ─────────────────────────────────── */
+.fel-wrap { font-family: var(--fu); }
+
+/* Phase header row */
+.fel-phase-row {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.fel-phase-hdr {
+  padding: 10px 14px;
+  text-align: center;
+  border-radius: 3px;
+}
+.fel-phase-title { font-size: clamp(11px,0.85vw,13px); font-weight: 700; margin-bottom: 2px; }
+.fel-phase-sub   { font-size: clamp(9.5px,0.7vw,11px); opacity: 0.8; }
+
+/* Arrow row */
+.fel-arrow-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px; padding: 0 2px;
+}
+.fel-arr-seg  { flex:1; height:2px; background: var(--border-s); }
+.fel-arr-head {
+  width:0; height:0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--border-s);
+}
+
+/* Cards grid */
+.fel-cards-row {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.fel-col { display: flex; flex-direction: column; gap: 7px; }
+
+.fel-card {
+  padding: 9px 12px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.fel-card:hover { transform: translateY(-1px); box-shadow: 0 3px 8px rgba(0,0,0,0.1); }
+.fel-card-title { font-size: clamp(10px,0.78vw,12px); font-weight: 700; margin-bottom: 2px; }
+.fel-card-sub   { font-size: clamp(9px,0.68vw,10.5px); opacity: 0.78; line-height: 1.4; }
+
+/* Colour families */
+.fc-green { background: #E8F5F0; border-color: #8ECFB8; }
+.fc-green .fel-card-title { color: #085041; }
+.fc-green .fel-card-sub   { color: #0F6E56; }
+
+.fc-amber { background: #FDF3E3; border-color: #F5C070; }
+.fc-amber .fel-card-title { color: #6B3A08; }
+.fc-amber .fel-card-sub   { color: #8C5010; }
+
+.fc-purple { background: #EEEDFC; border-color: #B0AAE8; }
+.fc-purple .fel-card-title { color: #3C3489; }
+.fc-purple .fel-card-sub   { color: #534AB7; }
+
+.fc-blue { background: #E5F1FB; border-color: #88BBE8; }
+.fc-blue .fel-card-title { color: #0C447C; }
+.fc-blue .fel-card-sub   { color: #185FA5; }
+
+/* Phase header colours */
+.fph-green  { background: #E8F5F0; border: 1px solid #8ECFB8; }
+.fph-green .fel-phase-title { color: #085041; }
+.fph-green .fel-phase-sub   { color: #0F6E56; }
+
+.fph-blue   { background: #E5F1FB; border: 1px solid #88BBE8; }
+.fph-blue .fel-phase-title  { color: #0C447C; }
+.fph-blue .fel-phase-sub    { color: #185FA5; }
+
+/* FID Banner */
+.fel-fid {
+  background: #EEEDFC;
+  border: 1.5px solid #8F88DF;
+  border-radius: 3px;
+  padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.fel-fid:hover { box-shadow: 0 3px 10px rgba(83,74,183,0.15); }
+.fel-fid-title { font-size: clamp(12px,0.9vw,14px); font-weight: 700; color: #3C3489; margin-bottom: 3px; }
+.fel-fid-sub   { font-size: clamp(10px,0.72vw,11.5px); color: #534AB7; }
+.fel-fid-click { font-size: 10px; color: #534AB7; white-space: nowrap; margin-left: 14px; opacity: 0.75; }
+
+/* Bottom 2-col row */
+.fel-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Legend */
+.fel-legend {
+  display: flex; gap: 18px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.fel-leg {
+  display: flex; align-items: center; gap: 6px;
+  font-size: clamp(9.5px,0.7vw,11px); color: var(--t2);
+}
+.fel-leg-dot {
+  width: 9px; height: 9px;
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* Modal */
+.fel-modal-bg {
+  display: none; position: fixed;
+  inset: 0; background: rgba(0,0,0,0.38);
+  z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.fel-modal-bg.open { display: flex; }
+.fel-modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 22px 24px;
+  max-width: 420px; width: 92%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  position: relative;
+}
+.fel-modal-title {
+  font-family: var(--fs);
+  font-size: clamp(13px,1vw,15px);
+  font-weight: 600; color: var(--t1);
+  margin-bottom: 8px;
+}
+.fel-modal-body {
+  font-size: clamp(10.5px,0.75vw,12px);
+  color: var(--t2); line-height: 1.65;
+  margin-bottom: 12px;
+}
+.fel-modal-data {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--navy);
+  padding: 9px 12px;
+  font-size: clamp(9.5px,0.7vw,11px);
+  color: var(--t2); line-height: 1.55;
+  margin-bottom: 14px;
+  border-radius: 2px;
+}
+.fel-modal-data strong { color: var(--t1); font-weight: 600; }
+.fel-modal-close {
+  font-size: 11px; color: var(--t3);
+  cursor: pointer; text-decoration: underline;
+  font-family: var(--fu);
+}
+
+/* Gate status strip */
+.gate-strip {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.gate-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 3px;
+  text-align: center;
+}
+.gate-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--t3); margin-bottom: 4px; font-weight: 600; }
+.gate-val   { font-family: var(--fs); font-size: clamp(12px,1vw,15px); font-weight: 600; margin-bottom: 3px; }
+.gate-sub   { font-size: 9.5px; color: var(--t3); line-height: 1.35; }
+
+/* Programme position banner */
+.pos-banner {
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+}
+.pos-title { font-family: var(--fs); font-size: clamp(12px,0.9vw,14px); font-weight: 600; }
+.pos-sub   { font-size: clamp(9.5px,0.7vw,11px); color: rgba(255,255,255,0.6); margin-top: 2px; }
+.pos-badge {
+  padding: 4px 12px; border-radius: 2px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  background: rgba(22,163,74,0.25);
+  color: #6ee7b7; border: 1px solid rgba(22,163,74,0.4);
+  white-space: nowrap;
+}
+
+/* Pipeline table */
+.pip-table { width:100%; border-collapse:collapse; font-size: clamp(10px,0.72vw,11.5px); }
+.pip-table th { text-align:left; padding:7px 10px; border-bottom:1px solid var(--border-s); font-size:9px; text-transform:uppercase; letter-spacing:0.07em; color:var(--t2); background:var(--bg3); font-weight:600; white-space:nowrap; }
+.pip-table td { padding:7px 10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+.pip-table tr:last-child td { border-bottom:none; }
+.pip-table tr:hover { background:var(--bg3); }
+
+/* Current position indicator on phase headers */
+.fel-phase-hdr.current {
+  box-shadow: 0 0 0 2px var(--green);
+  position: relative;
+}
+.fel-phase-hdr.current::after {
+  content: '✓ COMPLETE';
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+  background: var(--green); color: #fff;
+  font-size: 7.5px; font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .fel-phase-row, .fel-cards-row { grid-template-columns: repeat(2,1fr); }
+  .gate-strip { grid-template-columns: repeat(2,1fr); }
+  .fel-bottom-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .fel-phase-row, .fel-cards-row { grid-template-columns: 1fr; }
+  .gate-strip { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-header">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <div class="nav-logo">NEXUS</div>
+      <div class="nav-divider"></div>
+      <div class="nav-system">CapEx Program Control Tower</div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab" onclick="location.href='index.html'">Home</button>
+      <button class="nav-tab" onclick="location.href='executive.html'">Executive Dashboard</button>
+      <button class="nav-tab" onclick="location.href='supply-chain.html'">Strategic Supply Chain</button>
+      <button class="nav-tab" onclick="location.href='execution-risk.html'">Execution &amp; Risk</button>
+      <button class="nav-tab" onclick="location.href='deep-dive.html'">Deep Dive</button>
+      <button class="nav-tab active" onclick="location.href='sourcing-framework.html'">Sourcing Framework</button>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn">Export</button>
+      <button class="nav-btn primary" onclick="location.href='downloads/CapEx_StrategicSC_Portfolio.xlsx'">↓ Workbook</button>
+    </div>
+  </div>
+</nav>
+
+<main class="dashboard">
+
+  <header class="exec-header">
+    <h1 class="exec-title">FEL Sourcing Framework — Program Application</h1>
+    <p class="exec-subtitle">Front-End Loading (FEL) sourcing methodology applied to the Greenfield Expansion Phase II program. Maps commercial and engineering deliverables across each phase gate — from concept screening through Final Investment Decision and post-FID execution.</p>
+    <div class="exec-meta">
+      <span>Program: Greenfield Expansion Phase II</span>
+      <span>AR Reference: AR-2025-0082</span>
+      <span>FEL Status: FEL 3 Complete → G5 Production Release Dec 2025</span>
+      <span>Prepared by: Sourabh Tarodekar</span>
+    </div>
+  </header>
+
+  <!-- PROGRAMME POSITION BANNER -->
+  <div class="pos-banner">
+    <div>
+      <div class="pos-title">Current Program Position — Post-FID Execution Complete</div>
+      <div class="pos-sub">All FEL phases completed. FID approved Apr 2025 (AR-2025-0082). G5 Production Release achieved Dec 2025. 30/90/180-day post-commissioning checkpoints active.</div>
+    </div>
+    <div class="pos-badge">G5 — Production Released</div>
+  </div>
+
+  <!-- GATE STATUS STRIP -->
+  <div class="gate-strip" style="margin-bottom:16px;">
+    <div class="gate-card">
+      <div class="gate-label">FEL 1 — Concept Screening</div>
+      <div class="gate-val" style="color:var(--green);">Complete</div>
+      <div class="gate-sub">Scenario A/B/C evaluated · $40.04M benchmark · AACE Class 5 → Class 4</div>
+    </div>
+    <div class="gate-card">
+      <div class="gate-label">FEL 2 — Project Definition</div>
+      <div class="gate-val" style="color:var(--green);">Complete</div>
+      <div class="gate-sub">15 OEMs identified · 24 RFIs issued · Phase-gate plan locked · AR drafted</div>
+    </div>
+    <div class="gate-card">
+      <div class="gate-label">FEL 3 / FEED</div>
+      <div class="gate-val" style="color:var(--green);">Complete</div>
+      <div class="gate-sub">AACE Class 2 achieved · $537K savings · all RFPs closed · FID approved</div>
+    </div>
+    <div class="gate-card">
+      <div class="gate-label">Execution — Post-FID</div>
+      <div class="gate-val" style="color:var(--green);">G5 Released</div>
+      <div class="gate-sub">15 FATs · 45 units delivered · PQ complete · production release Dec 2025</div>
+    </div>
+  </div>
+
+  <!-- INSIGHT STRIP -->
+  <div class="insight-strip">
+    <div class="insight-item">FEL 3 achieved <strong>AACE Class 2 cost certainty (±15%)</strong> across all 15 equipment platforms before FID — enabling board approval of AR-2025-0082 at $16.06M.<span class="i-tag tag-up">FID Enabled</span></div>
+    <div class="insight-item">Should-cost model (S04) anchored all 10 negotiations — <strong>$537K total savings</strong> vs initial supplier quotes. Avg 5.9% below quote across 9 closed contracts.<span class="i-tag tag-up">$537K Saved</span></div>
+    <div class="insight-item">RFI process identified <strong>24 potential suppliers</strong> across 8 commodity categories. Filtered to 15 OEMs via technical and commercial evaluation before RFP stage.<span class="i-tag tag-note">24 → 15 Suppliers</span></div>
+    <div class="insight-item">Pfeiffer TMP (EQ-002) single-source risk identified at <strong>FEL 2</strong> — Shimadzu dual-source qualification initiated before FID, reducing post-FID schedule risk.<span class="i-tag tag-watch">Early Risk ID</span></div>
+  </div>
+
+  <!-- MAIN FEL FRAMEWORK -->
+  <div class="sec-hdr">
+    <h3>FEL Phase Map — Sourcing &amp; Commercial Deliverables</h3>
+    <span>Click any card to view program-specific data and methodology · S04 · S17 · S19 · S21</span>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-body" style="padding:18px;">
+      <div class="fel-wrap">
+
+        <!-- Legend -->
+        <div class="fel-legend">
+          <div class="fel-leg"><div class="fel-leg-dot" style="background:#0F6E56;"></div>FEL phases &amp; cost estimating</div>
+          <div class="fel-leg"><div class="fel-leg-dot" style="background:#8C5010;"></div>Commercial tools &amp; process</div>
+          <div class="fel-leg"><div class="fel-leg-dot" style="background:#534AB7;"></div>Key concepts &amp; methodology</div>
+          <div class="fel-leg"><div class="fel-leg-dot" style="background:#185FA5;"></div>Execution deliverables</div>
+        </div>
+
+        <!-- Phase header row -->
+        <div class="fel-phase-row">
+          <div class="fel-phase-hdr fph-green current">
+            <div class="fel-phase-title">FEL 1</div>
+            <div class="fel-phase-sub">Concept Screening</div>
+          </div>
+          <div class="fel-phase-hdr fph-green current">
+            <div class="fel-phase-title">FEL 2</div>
+            <div class="fel-phase-sub">Project Definition</div>
+          </div>
+          <div class="fel-phase-hdr fph-green current">
+            <div class="fel-phase-title">FEL 3 / FEED</div>
+            <div class="fel-phase-sub">Detailed Engineering</div>
+          </div>
+          <div class="fel-phase-hdr fph-blue current" style="box-shadow:0 0 0 2px var(--blue);">
+            <div class="fel-phase-title">Execution</div>
+            <div class="fel-phase-sub">Post-FID Deployment</div>
+          </div>
+        </div>
+
+        <!-- Arrow row -->
+        <div class="fel-arrow-row">
+          <div class="fel-arr-seg"></div><div class="fel-arr-head"></div>
+          <div style="width:8px;"></div>
+          <div class="fel-arr-seg"></div><div class="fel-arr-head"></div>
+          <div style="width:8px;"></div>
+          <div class="fel-arr-seg"></div><div class="fel-arr-head"></div>
+          <div style="width:8px;"></div>
+          <div class="fel-arr-seg"></div><div class="fel-arr-head"></div>
+        </div>
+
+        <!-- Cards row -->
+        <div class="fel-cards-row">
+
+          <!-- FEL 1 column -->
+          <div class="fel-col">
+            <div class="fel-card fc-green"
+              onclick="felModal('AACE Class 5 Estimate — Concept Screening',
+                'Rough order-of-magnitude cost estimate at concept stage. Accuracy range ±50%. Used to evaluate whether a project is worth developing further and to establish initial budget envelopes for board awareness.',
+                'Program application: Three scenarios evaluated (S13_Scenario_Analysis). Scenario A (Minimum CapEx) vs Scenario B (Baseline — recommended) vs Scenario C (Accelerated). Scenario B at $40.04M total program benchmark. This early estimate was the basis for initial board budget reservation before AR-2025-0082 was formally submitted.')">
+              <div class="fel-card-title">AACE Class 5 Estimate</div>
+              <div class="fel-card-sub">±50% · concept budget · S13 Scenario Analysis</div>
+            </div>
+            <div class="fel-card fc-green"
+              onclick="felModal('Supply Market Scan — Commodity Intelligence',
+                'Initial identification of which global suppliers could potentially build the required systems. No RFP issued at this stage — purely market intelligence gathering to understand supplier landscape, concentration risk, and technical capability.',
+                'Program application: 8 commodity categories mapped across S17_Supply_Market_Analysis. Key finding at FEL 1 — turbomolecular pump market is an oligopoly (4–6 global suppliers, HHI ~2,800). This early concentration finding directly triggered the Shimadzu dual-source qualification strategy before FID.')">
+              <div class="fel-card-title">Supply Market Scan</div>
+              <div class="fel-card-sub">8 commodities · HHI analysis · S17 Market Intelligence</div>
+            </div>
+            <div class="fel-card fc-purple"
+              onclick="felModal('Scenario Analysis — Investment Option Screening',
+                'Structured evaluation of alternative investment strategies before committing to a specific approach. Each scenario tested against NPV, IRR, payback period, and capacity adequacy — not just purchase price.',
+                'Program application (S13_Scenario_Analysis): Scenario A — Minimum CapEx $28.2M (minimum viable set, lower capacity, higher risk). Scenario B — Baseline $40.04M (recommended — full 15-platform set, 1,040K units/yr). Scenario C — Accelerated $48.6M (Phase II+III combined, earlier delivery). Scenario B selected: 10-yr NPV $9.52M advantage over Scenario A; IRR 14.2% vs 8% hurdle rate.')">
+              <div class="fel-card-title">Scenario Analysis</div>
+              <div class="fel-card-sub">Scenarios A / B / C · NPV · IRR · S13</div>
+            </div>
+          </div>
+
+          <!-- FEL 2 column -->
+          <div class="fel-col">
+            <div class="fel-card fc-green"
+              onclick="felModal('AACE Class 4 Estimate — Project Definition',
+                'Conceptual estimate, ±30% accuracy. The FEL 2 target. Built using should-cost modeling and preliminary RFI data from suppliers. Gives engineering a cost envelope to design within before detailed engineering begins.',
+                'Program application: Should-cost model (S04_Should_Cost_Model) built at FEL 2 using first-principles cost build-up: raw material cost + fabrication labor + overhead + OEM margin. This established internal target prices before any supplier quotes were received. Used as anchors in all 10 subsequent negotiations — contributing to $537K total savings vs initial quotes.')">
+              <div class="fel-card-title">AACE Class 4 Estimate</div>
+              <div class="fel-card-sub">±30% · should-cost model · S04</div>
+            </div>
+            <div class="fel-card fc-amber"
+              onclick="felModal('RFI Process — Supplier Intelligence Gathering',
+                'Request for Information issued to potential suppliers to gather technical capability data, preliminary lead times, footprint and utility requirements, and rough pricing. Not a commitment to buy — purely intelligence gathering that feeds into engineering design and cost estimates.',
+                'Program application (S19_Strategic_Sourcing_Pipeline): 24 potential suppliers contacted across 8 commodity categories. Filtered to 18 competitive bids received, then 15 OEM awards. Key RFI outputs: EQ-004 TEL furnace floor loading data used to identify civil reinforcement requirement 6 months before delivery. EQ-007 Air Liquide gas cabinet utility specs integrated into facility design at FEL 2 — preventing a costly rework loop at installation.')">
+              <div class="fel-card-title">RFI Process</div>
+              <div class="fel-card-sub">24 suppliers contacted · 8 categories · S19 Pipeline</div>
+            </div>
+            <div class="fel-card fc-purple"
+              onclick="felModal('Phase-Gate Integration — Supplier Data → Engineering',
+                'The practice of aligning supplier data deliverables to engineering review milestones. At each gate, specific commercial data (lead times, dimensions, utility specs) must be available for engineering to proceed. This prevents costly late-stage design changes.',
+                'Program application: Supplier utility requirements (power, cooling, compressed air) from EQ-004 (TEL) and EQ-007 (Air Liquide) incorporated into facility design at FEL 2 phase gate. EQ-004 floor loading (28 tonnes) identified early — civil reinforcement added to scope at FEL 2, not discovered post-delivery. EQ-002 Pfeiffer TMP 26-week manufacturing lead time identified at FEL 2 — immediately placed on CPM critical path, driving programme start date of Apr 2025.')">
+              <div class="fel-card-title">Phase-Gate Integration</div>
+              <div class="fel-card-sub">Supplier data → engineering · CPM locked · S07</div>
+            </div>
+            <div class="fel-card fc-amber"
+              onclick="felModal('Dual-Source Strategy Initiation',
+                'Identifying single-source risks at FEL 2 — before FID — and initiating qualification of alternative suppliers. Starting this work before capital is committed maximises time available for qualification and avoids paying single-source premiums on long-term contracts.',
+                'Program application (S20_Dual_MultiSource_Strategy): Pfeiffer Vacuum (EQ-002 TMP) identified as single-source critical path risk at FEL 2. Shimadzu TMP-3203L qualification initiated at $45K investment — before FID. Busch Vacuum qualified as Edwards Vacuum (EQ-001) alternative at $8K — completed by FEL 3. Total qual investment $105K against programme value of $13.87M = 0.76% of CapEx for significant risk reduction.')">
+              <div class="fel-card-title">Dual-Source Initiation</div>
+              <div class="fel-card-sub">Single-source risks identified · Shimadzu qual started · S20</div>
+            </div>
+          </div>
+
+          <!-- FEL 3 column -->
+          <div class="fel-col">
+            <div class="fel-card fc-green"
+              onclick="felModal('AACE Class 2 Estimate — FID-Ready Cost Certainty',
+                'Detailed estimate with ±15% accuracy. The FEL 3 / FEED target. Built from firm supplier quotes, detailed engineering drawings, and locked logistics plans. This level of cost certainty is required to support FID — the board cannot approve capital without it.',
+                'Program application: All 15 equipment platforms reached AACE Class 2 before AR-2025-0082 submission. Firm quotes from all OEMs. Equipment cost $12,525,000 + Installation $1,345,000 = $13,870,000 base CapEx. AR budget $16,062,000 includes 10% contingency ($1,387,000) + FX reserve ($485,000) + NRE ($320,000). Board approved Apr 2025. Zero budget overrun at programme close.')">
+              <div class="fel-card-title">AACE Class 2 Estimate</div>
+              <div class="fel-card-sub">±15% · firm quotes · $13.87M locked · AR-2025-0082</div>
+            </div>
+            <div class="fel-card fc-amber"
+              onclick="felModal('RFP + Commercial Negotiation',
+                'Formal Request for Proposal — binding scope, price, and schedule commitments from suppliers. Followed by structured commercial negotiation covering performance guarantees, liquidated damages, payment milestones, and long-term pricing.',
+                'Program application (S21_Negotiation_Tracker): 10 negotiations managed across 9 OEM categories. 9 closed, 1 active (Air Liquide EQ-007). Total confirmed savings: $537,000 vs initial supplier quotes (5.9% average). Highest single saving: AMAT RTP $125K (6.7%). Key leverage used: BTU International as competitive alternative to Thermco ($82K saving), Kawasaki technical evaluation against Brooks ($95K saving), multi-unit volume commitment on AMAT ($125K saving).')">
+              <div class="fel-card-title">RFP + Negotiation</div>
+              <div class="fel-card-sub">10 negotiations · $537K savings · 5.9% avg · S21</div>
+            </div>
+            <div class="fel-card fc-amber"
+              onclick="felModal('Should-Cost Model — First-Principles Pricing',
+                'A first-principles cost estimate built independently of supplier quotes. Built from raw material cost + fabrication labor + overhead + OEM margin. Used as a negotiation anchor and budget validation tool — prevents overpaying by establishing what equipment should cost before the supplier tells you what they want.',
+                'Program application (S04_Should_Cost_Model): Should-cost models built for all 15 equipment platforms before RFP issue. Method: decompose equipment BOM → build material cost stack → add fabrication labor (region-adjusted) → apply overhead and OEM margin → validate against analogous equipment benchmarks. Models used as anchors in all 10 negotiations. Average gap between initial quote and should-cost: 8.4%. Average negotiated saving: 5.9%. Residual gap = accepted supplier margin.')">
+              <div class="fel-card-title">Should-Cost Model</div>
+              <div class="fel-card-sub">First-principles pricing · all 15 platforms · S04</div>
+            </div>
+            <div class="fel-card fc-purple"
+              onclick="felModal('Value Engineering — Function at Lower Cost',
+                'A structured review of engineering design to identify cost reduction opportunities without compromising function. Conducted in FEL 3 before scope is locked. Requires joint sessions between the sourcing team, engineering, and the supplier.',
+                'Program application: Three value engineering outcomes in Phase II program. (1) EQ-003 Thermco tube furnace — Thermco proposed simplified heating element mounting bracket: $18K saving, no performance impact. (2) EQ-014 AMAT RTP — CVD SiC edge ring substitution (ECO-003): $15K saving, +0.8% yield improvement at wafer edge. (3) EQ-009 Siemens DCS — consolidated from 6-cabinet to 5-cabinet configuration: $22K saving, reduced footprint. Combined: $55K value engineering savings, all changes approved pre-FID.')">
+              <div class="fel-card-title">Value Engineering</div>
+              <div class="fel-card-sub">$55K savings · 3 VE outcomes · pre-FID scope lock</div>
+            </div>
+            <div class="fel-card fc-purple"
+              onclick="felModal('TCO Analysis — 10-Year Lifecycle Evaluation',
+                'Total Cost of Ownership analysis — acquisition + installation + operations + maintenance + downtime cost over the asset life. Prevents optimizing for unit purchase price at the expense of long-term operational cost.',
+                'Program application (S05_TCO_Downtime_Model): 10-year TCO model built for all process tools. Key outputs: EQ-002 Pfeiffer TMP — 10-yr TCO $2.1M (purchase $930K + install $84K + maintenance + energy). Downtime cost model: $4,500/hr production value × MTBF/MTTR assumptions. TCO model confirmed Scenario B recommendation over Scenario A — $9.52M 10-yr NPV advantage despite higher upfront CapEx. Model also sized spare parts buffer: RTP lamp array (SP-010) at $37K holding value justified by $4,500/hr avoided downtime.')">
+              <div class="fel-card-title">TCO Analysis</div>
+              <div class="fel-card-sub">10-yr lifecycle · $9.52M NPV advantage · S05</div>
+            </div>
+          </div>
+
+          <!-- Execution column -->
+          <div class="fel-col">
+            <div class="fel-card fc-blue"
+              onclick="felModal('FAT — Factory Acceptance Testing',
+                'Formal verification at the supplier facility before shipment. Confirms equipment meets all technical, functional, and performance specifications. The last quality gate before equipment ships to site. FAT protocols must be written in FEL 3 — before fabrication begins.',
+                'Program application: 15 FAT protocols written and executed. All 15 FATs passed before shipment — zero post-shipment specification failures. Key FAT results: EQ-004 TEL Batch Furnace — thermal uniformity measured ±0.8°C across all 5 zones (spec: ±1.5°C). EQ-014 AMAT RTP — ramp rate achieved 150°C/sec (spec: 125°C/sec). EQ-002 Pfeiffer TMP — base pressure <5×10⁻⁸ mbar achieved (spec: <1×10⁻⁷ mbar). G2 gate: all FATs complete Oct 2025.')">
+              <div class="fel-card-title">FAT — Factory Acceptance</div>
+              <div class="fel-card-sub">15 of 15 FATs passed · G2 gate · Oct 2025</div>
+            </div>
+            <div class="fel-card fc-blue"
+              onclick="felModal('Multi-Modal Logistics — Equipment Delivery',
+                'Coordinating physical movement of capital equipment from supplier factory to project site. Involves customs documentation, freight forwarding, specialist transport, and site receiving readiness. Long-lead items must be tracked through the entire chain.',
+                'Program application (S18_Supply_Chain_Network): 15 shipments coordinated across 5 logistics modes. Japan suppliers (TEL, Daikin, Daifuku) — sea freight Yokohama/Osaka → US West Coast, 4–5 week transit, 3.2% import duty. FX forward contracts executed for EUR and JPY exposure ($485K reserve in AR). Total freight budget: $274,600. Customs broker engaged for Japan customs clearance 8 weeks pre-shipment. EQ-008 Linde bulk gas vessel — break-bulk sea freight requiring crane on delivery. All 45 units delivered to site by G3 gate Oct 2025.')">
+              <div class="fel-card-title">Multi-Modal Logistics</div>
+              <div class="fel-card-sub">5 logistics modes · $275K freight · G3 Oct 2025 · S18</div>
+            </div>
+            <div class="fel-card fc-blue"
+              onclick="felModal('Installation, Commissioning & PQ',
+                'The process of verifying installed equipment operates per design specification in the actual operating environment. The final milestone before a system enters production. Programme ownership extends through commissioning — not just delivery.',
+                'Program application: All 15 platforms installed Nov 2025. Process qualification (G4 PQ) completed Dec 2025 — all platforms passed. 4 PQ re-runs required on EQ-004 batch furnace (zone temperature drift resolved via ECO-002 recipe parameter update). OEE Q3-2025: 95.4% average across all process tools, exceeding 85% target. Yield Q3-2025: 96.1% average vs 96.0% target. G5 Production Release: Dec 15, 2025 — formal handover to Operations on schedule.')">
+              <div class="fel-card-title">Install, Commission &amp; PQ</div>
+              <div class="fel-card-sub">G4 PQ Dec 2025 · 95.4% OEE · G5 released · S28</div>
+            </div>
+            <div class="fel-card fc-blue"
+              onclick="felModal('Post-Commissioning ROI Tracking',
+                'Systematic tracking of equipment performance against the financial case that justified the investment. Measures actual OEE, yield, and capacity against the AR projections. Reports at 30, 90, and 180 days post-production release.',
+                'Program application (S29_Equipment_ROI_Tracker): 30-day checkpoint Jan 2026 — all process tools exceeding capacity plan. Actual production capacity 1,040,253 units/yr vs 1,040,000 plan. OEE 95.4% vs 85% plan — 10.4pp above target. Yield 96.1% vs 96.0% plan. IRR tracking at 14.2% vs 8% hurdle rate. Simple payback confirmed 4.2 years. 90-day checkpoint Mar 2026 scheduled. Spare parts coverage adequate — $124,200 total holding value across 12 Class-A critical parts.')">
+              <div class="fel-card-title">Post-Commissioning ROI</div>
+              <div class="fel-card-sub">30-day checkpoint complete · 95.4% OEE · S29 ROI Tracker</div>
+            </div>
+          </div>
+
+        </div><!-- /fel-cards-row -->
+
+        <!-- FID Banner -->
+        <div class="fel-fid"
+          onclick="felModal('FID — Final Investment Decision (AR-2025-0082)',
+            'The moment a company formally commits full capital to build a plant or install a system. Every sourcing and commercial deliverable in FEL 3 exists to support FID. If cost certainty is not achieved — firm prices, locked logistics, qualified suppliers — FID is delayed. Each month of FID delay in a capital program typically costs $200K–$500K in project carrying cost.',
+            'Program application: FID achieved Apr 2025 — Board approval of AR-2025-0082 at $16,062,000. Pre-conditions met: (1) AACE Class 2 estimates for all 15 platforms ✓ (2) All OEM quotes firm and within budget ✓ (3) FX forward contracts executed ✓ (4) Logistics plan locked ✓ (5) CPM schedule confirmed 46-week duration ✓ (6) Single-source risk mitigation (Shimadzu qual) initiated ✓ (7) Hazmat permit application timeline confirmed ✓. Finance partner: R. Patel. Approval authority: VP Engineering + CFO (>$10M threshold).')">
+          <div>
+            <div class="fel-fid-title">FID — Final Investment Decision · AR-2025-0082 · Approved Apr 2025</div>
+            <div class="fel-fid-sub">Board commitment of $16,062,000 capital · VP Engineering + CFO approval · All FEL 3 deliverables satisfied · 15 OEM POs awarded within 3 weeks</div>
+          </div>
+          <div class="fel-fid-click">click for detail →</div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="fel-bottom-row">
+          <div class="fel-card fc-amber" style="cursor:pointer;"
+            onclick="felModal('P&IDs — Piping & Instrumentation Diagrams',
+              'Engineering drawings defining functional relationships of all piping, instruments, and equipment in a process system. The definitive scope document for supplier technical proposals. Every utility tie-in, instrument tag, and control logic assumption is captured here.',
+              'Program application: P&IDs developed for EQ-007 gas handling system (Air Liquide) and EQ-012 chiller cooling loop (Daikin) at FEL 2. Gas cabinet P&ID used as primary document for hazmat permit application — permit approval required P&ID revision 2 to incorporate secondary pressure interlock (ECO-001). Cooling loop P&ID interface drawings required from Daikin 6 weeks before FAT — delivered on schedule. MES/SCADA integration spec (EQ-009 Siemens) developed from P&ID instrument tag list.')">
+            <div class="fel-card-title">P&amp;IDs — Piping &amp; Instrumentation Diagrams</div>
+            <div class="fel-card-sub">Supplier scope document · gas system · cooling loop · EQ-007, EQ-012</div>
+          </div>
+          <div class="fel-card fc-amber" style="cursor:pointer;"
+            onclick="felModal('Competitive Positioning & Supplier Development',
+              'Structuring the commercial relationship so suppliers prioritise your program — through volume commitments, multi-phase signals, competitive alternatives, and long-term agreement frameworks. Critical in concentrated markets where supplier capacity is limited.',
+              'Program application (S21_Negotiation_Tracker): (1) Multi-unit volume commitment — 6× SCARA robots to Brooks Automation used to secure priority production slot and extract $95K saving. (2) Phase III expansion signal to Applied Materials — Phase II order of 2 RTP units with implied Phase III follow-on of 4 units — extracted $125K saving. (3) Shimadzu qualification threat communicated to Pfeiffer during N-001 negotiation — extracted $45K saving on single-source TMP supply. (4) Long-term service agreement offered to Siemens in exchange for $55K DCS saving + 3-year LTA pricing commitment. Total leverage-driven savings: $320K of $537K total.')">
+            <div class="fel-card-title">Competitive Positioning &amp; Supplier Development</div>
+            <div class="fel-card-sub">Volume leverage · Phase III signal · dual-source threat · LTA structure · S21</div>
+          </div>
+        </div>
+
+      </div><!-- /fel-wrap -->
+    </div><!-- /card-body -->
+  </div><!-- /card -->
+
+  <!-- SOURCING PIPELINE TABLE -->
+  <div class="sec-hdr">
+    <h3>Strategic Sourcing Pipeline — Stage Progress</h3>
+    <span>All 15 OEM categories · S19_Strategic_Sourcing_Pipeline</span>
+  </div>
+  <div class="grid grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Pipeline Stage Summary</span>
+          <span class="card-insight">All 15 commodities progressed from market scan through to PO award — 9 of 10 negotiations closed</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="pip-table">
+          <thead>
+            <tr><th>Stage</th><th>FEL Phase</th><th>Count</th><th>Key Deliverable</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:600;">1 · Market Scan &amp; Analysis</td><td>FEL 1</td><td style="font-weight:600;font-family:var(--fs);">8</td><td>HHI scores · concentration risk · S17</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">2 · RFI Issued</td><td>FEL 2</td><td style="font-weight:600;font-family:var(--fs);">24</td><td>Supplier capability · utility data · lead times</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">3 · Technical Evaluation</td><td>FEL 2</td><td style="font-weight:600;font-family:var(--fs);">18</td><td>Bid scoring · should-cost comparison</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">4 · RFP / BAFO Issued</td><td>FEL 3</td><td style="font-weight:600;font-family:var(--fs);">15</td><td>Binding scope · price · schedule</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">5 · Negotiation</td><td>FEL 3</td><td style="font-weight:600;font-family:var(--fs);">10</td><td>$537K savings · BATNA used on 6 of 10</td><td><span class="status st-amber">9 Closed · 1 Active</span></td></tr>
+            <tr><td style="font-weight:600;">6 · PO Award</td><td>Post-FID</td><td style="font-weight:600;font-family:var(--fs);">15</td><td>All POs placed within 3 weeks of FID</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">7 · Dual-Source Qualification</td><td>FEL 2 → Ongoing</td><td style="font-weight:600;font-family:var(--fs);">8</td><td>$105K qual investment · 3 complete</td><td><span class="status st-amber">3 Complete · 5 Pipeline</span></td></tr>
+          </tbody>
+        </table>
+        <div class="table-fn">Source: S19_Strategic_Sourcing_Pipeline. Negotiation count (10) exceeds OEM count (15) because some OEMs cover multiple equipment types. Air Liquide N-006 (EQ-007 gas cabinets) remains active — Matheson Gas RFQ running parallel as BATNA.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">FEL Deliverable Checklist — Phase II</span>
+          <span class="card-insight">All FEL 3 deliverables satisfied before FID — enabling on-schedule board approval Apr 2025</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="pip-table">
+          <thead>
+            <tr><th>FEL Deliverable</th><th>Phase</th><th>Owner</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="font-weight:600;">AACE Class 5 estimate — scenarios A/B/C</td><td>FEL 1</td><td>PM / Finance</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">Supply market scan — 8 commodities</td><td>FEL 1</td><td>Sourcing</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">Scenario analysis — Scenario B selected</td><td>FEL 1</td><td>PM / Finance</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">RFI issued — 24 suppliers across 8 categories</td><td>FEL 2</td><td>Sourcing</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">AACE Class 4 — should-cost model (S04)</td><td>FEL 2</td><td>Sourcing</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">CPM schedule locked — 46-week programme</td><td>FEL 2</td><td>PM</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">Dual-source qual initiated — Shimadzu TMP</td><td>FEL 2</td><td>Sourcing / Eng</td><td><span class="status st-amber">In Progress</span></td></tr>
+            <tr><td style="font-weight:600;">AACE Class 2 — firm quotes all 15 OEMs</td><td>FEL 3</td><td>Sourcing</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">RFP + negotiation — 9/10 closed</td><td>FEL 3</td><td>Sourcing</td><td><span class="status st-amber">1 Active (Air Liquide)</span></td></tr>
+            <tr><td style="font-weight:600;">FX hedges placed — EUR + JPY</td><td>FEL 3</td><td>Finance</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">Logistics plan locked — all 15 shipments</td><td>FEL 3</td><td>Logistics</td><td><span class="status st-green">Complete</span></td></tr>
+            <tr><td style="font-weight:600;">AR-2025-0082 submitted and approved — FID</td><td>FEL 3</td><td>PM / CFO</td><td><span class="status st-green">FID Apr 2025</span></td></tr>
+            <tr><td style="font-weight:600;">All 15 FATs complete — G2 gate</td><td>Execution</td><td>Engineering</td><td><span class="status st-green">Complete Oct 2025</span></td></tr>
+            <tr><td style="font-weight:600;">All 45 units delivered — G3 gate</td><td>Execution</td><td>Logistics</td><td><span class="status st-green">Complete Oct 2025</span></td></tr>
+            <tr><td style="font-weight:600;">G5 Production Release — handover to Ops</td><td>Execution</td><td>PM</td><td><span class="status st-green">Complete Dec 2025</span></td></tr>
+          </tbody>
+        </table>
+        <div class="table-fn">FID = Final Investment Decision. All FEL 3 commercial deliverables met before AR-2025-0082 board approval Apr 2025. Shimadzu dual-source qual (FEL 2 initiated) continues post-FID as risk mitigation — not a FID prerequisite. Air Liquide negotiation active — PO placed at budgeted rate pending final commercial close.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- MODAL -->
+<div class="fel-modal-bg" id="felModalBg" onclick="closeFelModal(event)">
+  <div class="fel-modal">
+    <div class="fel-modal-title" id="felModalTitle"></div>
+    <div class="fel-modal-body" id="felModalBody"></div>
+    <div class="fel-modal-data" id="felModalData"></div>
+    <span class="fel-modal-close" onclick="document.getElementById('felModalBg').classList.remove('open')">close ✕</span>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="assets/js/main.js"></script>
+<script>
+function felModal(title, body, data) {
+  document.getElementById('felModalTitle').textContent = title;
+  document.getElementById('felModalBody').textContent = body;
+  document.getElementById('felModalData').innerHTML = '<strong>Program Data:</strong> ' + data;
+  document.getElementById('felModalBg').classList.add('open');
+}
+function closeFelModal(e) {
+  if (e.target === document.getElementById('felModalBg')) {
+    document.getElementById('felModalBg').classList.remove('open');
+  }
+}
+</script>
+</body>
+</html>
