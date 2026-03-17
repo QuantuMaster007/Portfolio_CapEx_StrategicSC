@@ -88,7 +88,7 @@ Portfolio_CapEx_StrategicSC/
 1. Clone or push this folder to a GitHub repository
 2. Go to **Settings → Pages**
 3. Set source to `main` branch / root
-4. Site will be live at `[https://[username].github.io/[repo-name]/](https://quantumaster007.github.io/Portfolio_CapEx_StrategicSC/index.html)`
+4. Site will be live at `[https://[username].github.io/[repo-name]/`
 
 ---
 
